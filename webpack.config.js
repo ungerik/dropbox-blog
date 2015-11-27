@@ -72,6 +72,7 @@ config.addLib("es5-shim", "bower_components/es5-shim/es5-shim.min.js");
 config.addLib("es5-sham", "bower_components/es5-shim/es5-sham.min.js");
 config.addLib("html5shiv-printshiv", "bower_components/html5shiv/dist/html5shiv-printshiv.min.js");
 config.addLib("browser-polyfill", "node_modules/babel-core/browser-polyfill.min.js");
+config.addLib("fetch", "bower_components/fetch/fetch.js");
 
 // CSS:
 config.addLib("bootstrap.css", "bower_components/bootstrap/dist/css/bootstrap.min.css");
