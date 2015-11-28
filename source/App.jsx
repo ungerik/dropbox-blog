@@ -43,6 +43,7 @@ export default class App extends React.Component {
 	render() {
 		return (
 			<div className="app-container">
+				<h1>test</h1>
 				<Tabs bsStyle="pills" defaultActiveKey={0}>
 					<Tab eventKey={0} title="Posts">
 						<div>Latest news...</div>

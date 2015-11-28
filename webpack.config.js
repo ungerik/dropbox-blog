@@ -1,12 +1,12 @@
-// todo https://github.com/gaearon/react-transform-boilerplate
-
+/* global process, __dirname, module */
 var path = require("path");
 var webpack = require("webpack");
 
 
 function makeStandardConfig(projectDir, appEntry, appOutput) {
 	var appOutput = appOutput || "app.js";
-	var outputPath = process.env.NODE_ENV === "production" ? "./dist" : "./build";
+	// var outputPath = process.env.NODE_ENV === "production" ? "./dist" : "./build";
+	var outputPath = process.env.NODE_ENV === "production" ? path.join(__dirname, "dist") : path.join(__dirname, "build");
 	console.log("Webpack", path.join(projectDir, outputPath));
 
 	return {
@@ -25,12 +25,8 @@ function makeStandardConfig(projectDir, appEntry, appOutput) {
 		devtool: "inline-source-map",
 
 		entry: {
-			app: [
-				appEntry
-			],
-			libs: [
-				 // will be filled by addLib()
-			]
+			app: [appEntry],
+			libs: [] // will be filled by addLib()
 		},
 
 		output: {
@@ -52,7 +48,7 @@ function makeStandardConfig(projectDir, appEntry, appOutput) {
 
 		resolve: {
 			extensions: ["", ".js", ".jsx"],
-			modulesDirectories: ["node_modules"],
+			modulesDirectories: ["node_modules", "bower_components"],
 			alias: {} // will be filled by addLib()
 		},
 
@@ -64,7 +60,20 @@ function makeStandardConfig(projectDir, appEntry, appOutput) {
 }
 
 
-var config = makeStandardConfig(__dirname, "./source/main.js");
+function makeStandardHotConfig(projectDir, appEntry, appOutput) {
+	var config = makeStandardConfig(projectDir, appEntry, appOutput);
+	// var hotMiddlewareScript = "webpack-hot-middleware/client?reload=true&timeout=2000";
+	var hotMiddlewareScript = "webpack-hot-middleware/client?reload=true";
+	config.entry.app.push(hotMiddlewareScript);
+	config.entry.libs.push(hotMiddlewareScript);
+	config.plugins.push(new webpack.HotModuleReplacementPlugin());
+	config.plugins.push(new webpack.NoErrorsPlugin());
+	return config;
+}
+
+
+// var config = makeStandardConfig(__dirname, "./source/main.js");
+var config = makeStandardHotConfig(__dirname, "./source/main.js");
 
 // Polyfills:
 config.addLib("console-polyfill", "bower_components/console-polyfill/index.js");
